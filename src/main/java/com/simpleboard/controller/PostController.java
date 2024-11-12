@@ -70,7 +70,7 @@ public class PostController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, Model model) {
+    public String delete(@PathVariable Long id) {
         postRepository.delete(id);  // ID로 게시글을 찾음
         return "redirect:/post/list";
     }
