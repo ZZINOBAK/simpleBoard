@@ -1,11 +1,11 @@
-package web.springmvc.controller;
+package com.simpleboard.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import web.springmvc.domain.Post;
-import web.springmvc.domain.PostRepository;
+import com.simpleboard.domain.Post;
+import com.simpleboard.repository.PostRepository;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class PostController {
             if (post != null) {
                 post.setTitle(title);   // 제목 수정
                 post.setContent(content);  // 내용 수정
-                postRepository.update(post);  // 수정된 게시글 저장
+                postRepository.updatePost(post);  // 수정된 게시글 저장
                 model.addAttribute("post", post);
                 return "post";  // 수정 후 게시글 목록으로 리다이렉트
             }
@@ -64,7 +64,7 @@ public class PostController {
         Post post = postRepository.findById(id);  // ID로 게시글을 찾음
         if (post != null) {
             model.addAttribute("post", post);  // 수정할 게시글 데이터를 모델에 추가
-            return "edit-post";  // 수정 폼을 보여주는 뷰
+            return "edit-form";  // 수정 폼을 보여주는 뷰
         }
         return "redirect:/post/list";
     }

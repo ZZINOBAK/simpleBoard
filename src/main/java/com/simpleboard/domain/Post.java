@@ -1,4 +1,4 @@
-package web.springmvc.domain;
+package com.simpleboard.domain;
 
 import lombok.Getter;
 import lombok.Setter;

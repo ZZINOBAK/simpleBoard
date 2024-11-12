@@ -1,5 +1,6 @@
-package web.springmvc.domain;
+package com.simpleboard.repository;
 
+import com.simpleboard.domain.Post;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class PostRepository {
         return new ArrayList<>(store.values());
     }
 
-    public Post update(Post post) {
+    public Post updatePost(Post post) {
         store.put(post.getId(), post);
         return post;
     }
@@ -35,4 +36,8 @@ public class PostRepository {
     public void delete(Long id) {
         store.remove(id);
     }
+    public void clearStore() {
+        store.clear();
+    }
+
 }
