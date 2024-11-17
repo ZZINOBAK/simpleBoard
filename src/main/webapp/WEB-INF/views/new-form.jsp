@@ -5,7 +5,7 @@
     <title>글쓰기</title>
 </head>
 <body>
-    <form action="/post/save" method="post">
+    <form action="/posts" method="post">
         <label for="title">title:</label>
         <input type="text" name="title" id="title" style="display: block; margin-bottom: 10px;" />
 

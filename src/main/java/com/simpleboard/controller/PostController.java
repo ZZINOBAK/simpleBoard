@@ -1,79 +1,79 @@
 package com.simpleboard.controller;
 
+import com.simpleboard.domain.Post;
+import com.simpleboard.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.simpleboard.domain.Post;
-import com.simpleboard.repository.PostRepository;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/post")
+@RequestMapping("/posts")
 public class PostController {
-    private final PostRepository postRepository;
+    private final PostService postService;
 
     @Autowired
-    public PostController(PostRepository postRepository) {
-        this.postRepository = postRepository;
+    public PostController(PostService postService) {
+        this.postService = postService;
     }
 
-    @GetMapping("/{id}")
-    public String post(@PathVariable Long id, Model model) {
-        Post post = postRepository.findById(id);  // ID로 게시글을 찾음
+    //게시글 생성 폼
+    @GetMapping("/new")
+    public String getCreateForm() {
+        return "new-form";
+    }
+
+    //게시글 생성
+    @PostMapping
+    public String createPost(@RequestParam("title") String title,
+                             @RequestParam("content") String content, Model model) {
+        Post post = postService.save(title, content);
         model.addAttribute("post", post);
         return "post";
     }
 
-    @GetMapping("/new")
-    public String newPost() {
-        return "post-form";
-    }
-
-    @RequestMapping(value = {"/save", "/edit/save"}, method = RequestMethod.POST)
-    public String save(@RequestParam("title") String title, @RequestParam("content") String content,
-                       @RequestParam(required = false) Long id, Model model) {
-        if (id == null) {
-            Post post = new Post(title, content);
-            postRepository.save(post);
-            model.addAttribute("post", post);
-            return "post";
-        } else {
-            Post post = postRepository.findById(id);  // 수정할 게시글 찾기
-            if (post != null) {
-                post.setTitle(title);   // 제목 수정
-                post.setContent(content);  // 내용 수정
-                postRepository.updatePost(post);  // 수정된 게시글 저장
-                model.addAttribute("post", post);
-                return "post";  // 수정 후 게시글 목록으로 리다이렉트
-            }
-            return "error";  // 기본 에러 처리
-        }
-    }
-
-    @GetMapping("/list")
-    public String posts(Model model) {
-        List<Post> posts = postRepository.findAllPost();
+    //게시글 전체 조회
+    @GetMapping
+    public String findAllPost(Model model) {
+        List<Post> posts = postService.findAllPost();
         model.addAttribute("posts", posts);
         return "posts";
     }
 
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Long id, Model model) {
-        Post post = postRepository.findById(id);  // ID로 게시글을 찾음
-        if (post != null) {
-            model.addAttribute("post", post);  // 수정할 게시글 데이터를 모델에 추가
-            return "edit-form";  // 수정 폼을 보여주는 뷰
-        }
-        return "redirect:/post/list";
+    //게시글 한개 조회
+    @GetMapping("/{id}")
+    public String findById(@PathVariable Long id, Model model) {
+        Post post = postService.findById(id);
+        model.addAttribute("post", post);
+        return "post";
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        postRepository.delete(id);  // ID로 게시글을 찾음
-        return "redirect:/post/list";
+    //게시글 수정 폼
+    @GetMapping("/{id}/edit")
+    public String getEditForm(@PathVariable Long id, Model model) {
+        Post post = postService.findById(id);
+        model.addAttribute("post", post);
+        return "edit-form";
     }
 
 
+    //게시글 수정
+    @PostMapping("/{id}")
+    public String editPost(@RequestParam("title") String title,
+                           @RequestParam("content") String content,
+                           @RequestParam(required = false) Long id,
+                           Model model) {
+        Post post = postService.updatePost(title, content, id);
+        model.addAttribute("post", post);
+        return "post";
+    }
+
+    //게시글 삭제
+    @PostMapping("/{id}/delete")
+    public String deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
+        return "redirect:/posts";
+    }
 }

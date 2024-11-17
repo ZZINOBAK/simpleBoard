@@ -6,7 +6,9 @@
     <title>글수정하기</title>
 </head>
 <body>
-     <form action="/post/save" method="post">
+    <a href="/index.html">메인</a>
+    <a href="/posts">글목록보기</a>
+     <form action="/posts/${post.id}" method="post">
          <!-- id 숨기기 -->
          <input type="hidden" name="id" value="${post.id}" />
 
@@ -16,9 +18,11 @@
 
          <!-- content 입력 -->
          <label for="content">Content:</label>
-         <textarea name="content" id="content" rows="5" cols="40" style="display: block; margin-bottom: 10px;">${post.content}</textarea>
-
+        <textarea name="content" id="content" rows="5" cols="40" style="display: block; margin-bottom: 10px;">${post.content}</textarea>
          <button type="submit">수정하기</button>
+     </form>
+     <form action="/posts/${post.id}/delete" method="post">
+          <button type="submit">삭제</button>
      </form>
     </body>
 </html>

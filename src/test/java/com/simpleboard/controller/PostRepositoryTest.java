@@ -1,7 +1,7 @@
 package com.simpleboard.controller;
 
 import com.simpleboard.domain.Post;
-import com.simpleboard.repository.PostRepository;
+import com.simpleboard.repository.PostRepositoryV1;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,12 +10,13 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PostRepositoryTest {
-    PostRepository postRepository = new PostRepository();
+
+    PostRepositoryV1 postRepository;
 
     @AfterEach
-    void afterEach() {
-        postRepository.clearStore();
-    }
+//    void afterEach() {
+//        postRepository.clearStore();
+//    }
 
     @Test
     void save() {
