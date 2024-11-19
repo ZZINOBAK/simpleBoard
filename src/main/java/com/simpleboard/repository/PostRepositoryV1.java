@@ -1,7 +1,6 @@
 package com.simpleboard.repository;
 
 import com.simpleboard.domain.Post;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 import org.springframework.jdbc.support.SQLExceptionTranslator;
@@ -98,7 +97,7 @@ public class PostRepositoryV1 implements PostRepository {
                 post.setContent(rs.getString("content").trim());
                 return post;
             } else {
-                throw new NoSuchElementException("post not found id=" + id);
+                return null;  // 데이터가 없으면 null 반환
             }
         } catch (SQLException e) {
             throw exTranslator.translate("findById", sql, e);
@@ -141,16 +140,18 @@ public class PostRepositoryV1 implements PostRepository {
             throw exTranslator.translate("delete", sql, e);
         } finally {
             close(con, pstmt, null);
-        }    }
+        }
+    }
 
     private void close(Connection con, Statement stmt, ResultSet rs) {
         JdbcUtils.closeResultSet(rs);
         JdbcUtils.closeStatement(stmt);
-        DataSourceUtils.releaseConnection(con, dataSource);
+        JdbcUtils.closeConnection(con);
+//        DataSourceUtils.releaseConnection(con, dataSource);
     }
 
-    private Connection getConnection() {
-        Connection con = DataSourceUtils.getConnection(dataSource);
+    private Connection getConnection() throws SQLException {
+        Connection con = dataSource.getConnection();
         return con;
     }
 }
