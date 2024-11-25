@@ -10,8 +10,8 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
+//JDBC 인터페이스
 @Repository
 public class PostRepositoryV1 implements PostRepository {
 

@@ -1,23 +1,23 @@
 package com.simpleboard.service;
 
 import com.simpleboard.domain.Post;
-import com.simpleboard.repository.PostRepositoryV1;
+import com.simpleboard.repository.PostRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class PostService {
-    private final PostRepositoryV1 postRepository;
 
-    @Autowired
-    public PostService(PostRepositoryV1 postRepository) {
-        this.postRepository = postRepository;
-    }
+    private final PostRepository postRepository;
 
     //Create
     public Post save(String title, String content) {
+        log.info("postRepository={}", postRepository.getClass());
         Post post = new Post(title, content);
         post = postRepository.save(post);
         return post;

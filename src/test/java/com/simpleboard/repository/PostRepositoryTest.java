@@ -1,26 +1,27 @@
 package com.simpleboard.repository;
 
 import com.simpleboard.domain.Post;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 @Transactional
-//@Rollback(true)
 @SpringBootTest
 public class PostRepositoryTest {
 
     @Autowired
-    PostRepositoryV1 postRepository;
+    PostRepository postRepository;
 
     @Test
     void save() {
+        log.info("postRepository={}", postRepository.getClass());
         //given
         Post post = new Post("제목1", "내용용용용용ㅇ");
         //when

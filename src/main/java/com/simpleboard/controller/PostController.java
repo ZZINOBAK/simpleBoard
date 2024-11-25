@@ -29,6 +29,7 @@ public class PostController {
     @PostMapping
     public String createPost(@RequestParam("title") String title,
                              @RequestParam("content") String content, Model model) {
+
         Post post = postService.save(title, content);
         model.addAttribute("post", post);
         return "post";
