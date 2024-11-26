@@ -1,6 +1,7 @@
 package com.simpleboard.repository;
 
 import com.simpleboard.domain.Post;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 import org.springframework.jdbc.support.SQLExceptionTranslator;
@@ -54,29 +55,31 @@ public class PostRepositoryV1 implements PostRepository {
 
     //Read
     public List<Post> findAllPost() {
-        String sql = "select * from post";
+        String sql = "SELECT * FROM post";
         List<Post> posts = new ArrayList<>();
-        try (
-                Connection con = getConnection();
-                PreparedStatement pstmt = con.prepareStatement(sql);
-                ResultSet rs = pstmt.executeQuery();
-        ) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            // 커넥션, PreparedStatement 및 ResultSet을 생성
+            con = getConnection();
+            pstmt = con.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
             while (rs.next()) { // 모든 행 반복
                 Post post = new Post();
                 post.setId(rs.getLong("id"));
                 post.setTitle(rs.getString("title"));
-                post.setContent(rs.getString("content").trim()); // 수정: content 값을 설정
+                post.setContent(rs.getString("content").trim()); // 수정: content 값 설정
                 posts.add(post);
             }
+            return posts; // 게시물이 없으면 빈 리스트를 반환
 
-            if (posts.isEmpty()) {
-                // 예외 대신 빈 리스트를 반환
-                return posts;
-            }
-
-            return posts;
         } catch (SQLException e) {
+            // 예외 처리
             throw exTranslator.translate("findAllPost", sql, e);
+        } finally {
+            close(con, pstmt, rs);
         }
     }
 
@@ -146,12 +149,15 @@ public class PostRepositoryV1 implements PostRepository {
     private void close(Connection con, Statement stmt, ResultSet rs) {
         JdbcUtils.closeResultSet(rs);
         JdbcUtils.closeStatement(stmt);
-        JdbcUtils.closeConnection(con);
-//        DataSourceUtils.releaseConnection(con, dataSource);
+//        JdbcUtils.closeConnection(con);
+        //주의! 트랜잭션 동기화를 사용하려면 DataSourceUtils를 사용해야 한다.
+        DataSourceUtils.releaseConnection(con, dataSource);
     }
 
     private Connection getConnection() throws SQLException {
-        Connection con = dataSource.getConnection();
+//        Connection con = dataSource.getConnection();
+        //주의! 트랜잭션 동기화를 사용하려면 DataSourceUtils를 사용해야 한다.
+        Connection con = DataSourceUtils.getConnection(dataSource);
         return con;
     }
 }

@@ -2,6 +2,7 @@ package com.simpleboard.repository;
 
 import com.simpleboard.domain.Post;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,11 +20,18 @@ public class PostRepositoryTest {
     @Autowired
     PostRepository postRepository;
 
+    @AfterEach
+    void afterEach() {
+        if (postRepository instanceof OldPostRepository) {
+            ((OldPostRepository) postRepository).clearStore();
+        }
+    }
+
     @Test
     void save() {
         log.info("postRepository={}", postRepository.getClass());
         //given
-        Post post = new Post("제목1", "내용용용용용ㅇ");
+        Post post = new Post("세이브제목", "세이브내용");
         //when
         Post savedPost = postRepository.save(post);
         Post findPost = postRepository.findById(post.getId());
@@ -34,12 +42,13 @@ public class PostRepositoryTest {
     @Test
     void findAllPost() {
         //given
-        Post post1 = new Post("제목1", "내용용용용용ㅇ");
-        Post post2 = new Post("제목2", "내용ddddd용용용용ㅇ");
+        Post post1 = new Post("전체조회제목1", "전체조회내용1");
+        Post post2 = new Post("전체조회제목2", "전체조회내용2");
         postRepository.save(post1);
         postRepository.save(post2);
         //when
         List<Post> result = postRepository.findAllPost();
+        log.info("result={}", result);
         //then
         assertThat(result.size()).isEqualTo(2);
 //        assertThat(result).contains(post1, post2);
@@ -51,9 +60,9 @@ public class PostRepositoryTest {
     @Test
     void findById() {
         //given
-        Post post1 = new Post("제목1", "내용용용용용ㅇ");
-        Post post2 = new Post("제목2", "내용ddddd용용용용ㅇ");
-        Post post3 = new Post("제목3", "내333dd용용용용ㅇ");
+        Post post1 = new Post("하나조회제목1", "하나조회내용1");
+        Post post2 = new Post("하나조회제목2", "하나조회내용2");
+        Post post3 = new Post("하나조회제목3", "하나조회내용3");
         postRepository.save(post1);
         postRepository.save(post2);
         postRepository.save(post3);
@@ -64,15 +73,14 @@ public class PostRepositoryTest {
         //then
         assertThat(findPost.getTitle()).isEqualTo(post1.getTitle());
     }
-
     @Test
     void updatePost() {
         //given
-        Post post = new Post("제목1", "내용용용용용ㅇ");
+        Post post = new Post("업데이트제목1", "업데이트내용1");
         Post seavedPost = postRepository.save(post);
 
         //when
-        Post updateParam = new Post("제목2", "내용용용용용ㅇ");
+        Post updateParam = new Post("업데이트제목2", "업데이트내용2");
         updateParam.setId(seavedPost.getId());
         postRepository.updatePost(updateParam);
         Post findPost = postRepository.findById(seavedPost.getId());
@@ -85,7 +93,7 @@ public class PostRepositoryTest {
     @Test
     void deletePost() {
         //given
-        Post post = new Post("제목1", "내용용용용용ㅇ");
+        Post post = new Post("삭제제목", "삭제내용");
         Post savedPost = postRepository.save(post);
 
         //when

@@ -38,8 +38,10 @@ public class PostRepositoryV4 implements PostRepository {
 
     @Override
     public Post updatePost(Post post) {
-        em.find(Post.class, post.getId());
-        return post;
+        Post findPost = em.find(Post.class, post.getId());
+        findPost.setTitle(post.getTitle());
+        findPost.setContent(post.getContent());
+        return findPost;
     }
 
     @Override
