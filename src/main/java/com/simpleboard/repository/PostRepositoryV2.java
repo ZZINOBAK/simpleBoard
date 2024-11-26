@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 //JDBC 템플릿
@@ -46,7 +45,6 @@ public class PostRepositoryV2 implements PostRepository {
     @Override
     public List<Post> findAllPost() {
         String sql = "select * from post";
-        List<Post> posts = new ArrayList<>();
         return template.query(sql, postRowMapper());
     }
 
