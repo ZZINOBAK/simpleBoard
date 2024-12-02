@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS post (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT, -- MySQL과 H2에서 모두 동작
+    title VARCHAR(255) NOT NULL,
+    content TEXT
+);

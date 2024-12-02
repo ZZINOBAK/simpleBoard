@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simpleboard.repository.mybatis.PostMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into post (title, content)
+        values (#{title}, #{content})
+    </insert>
+
+    <update id="update">
+        update post
+        set title=#{updateParam.title},
+        content=#{updateParam.content}
+        where id = #{updateParam.id}
+    </update>
+
+    <select id="findById" resultType="Post">
+        select id, title, content
+        from post
+        where id = #{id}
+    </select>
+
+    <select id="findAllPost" resultType="Post">
+        select id, title, content
+        from post
+    </select>
+
+    <update id="delete">
+        delete from post
+        where id = #{id}
+    </update>
+
+</mapper>

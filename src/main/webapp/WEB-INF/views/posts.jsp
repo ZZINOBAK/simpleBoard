@@ -7,6 +7,7 @@
 </head>
 <body>
     <a href="/index.html">메인</a>
+    <a href="/posts/new">글쓰기</a>
     <table>
         <thead>
             <th>연번</th>
@@ -18,10 +19,18 @@
             <c:forEach var="item" items="${posts}">
                 <tr>
                     <td>${item.id}</td>
-                    <td><a href="/post/${item.id}">${item.title}</a></td>
-                    <td><a href="/post/${item.id}">${item.content}</a></td>
-                    <td><a href="/post/edit/${item.id}"> 수정 </a></td>
-                    <td><a href="/post/delete/${item.id}"> 삭제 </a></td>
+                    <td><a href="/posts/${item.id}">${item.title}</a></td>
+                    <td><a href="/posts/${item.id}">${item.content}</a></td>
+                    <td>
+                        <form action="/posts/${item.id}/edit" method="get">
+                            <button type="submit">수정</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/posts/${item.id}/delete" method="post">
+                          <button type="submit">삭제</button>
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
         </tbody>
