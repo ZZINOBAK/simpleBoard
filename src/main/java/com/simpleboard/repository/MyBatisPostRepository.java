@@ -10,7 +10,7 @@ import java.util.List;
 //MyBatis
 @Repository
 @RequiredArgsConstructor
-public class PostRepositoryV3 implements PostRepository {
+public class MyBatisPostRepository implements PostRepository {
 
     private final PostMapper postMapper;
 

@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 @Transactional
-public class PostRepositoryV4 implements PostRepository {
+public class JpaPostRepository implements PostRepository {
 
     private final EntityManager em;
 

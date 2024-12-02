@@ -14,12 +14,12 @@ import java.util.List;
 
 //JDBC 인터페이스
 @Repository
-public class PostRepositoryV1 implements PostRepository {
+public class LegacyJdbcPostRepository implements PostRepository {
 
     private final DataSource dataSource;
     private final SQLExceptionTranslator exTranslator;
 
-    public PostRepositoryV1(DataSource dataSource) {
+    public LegacyJdbcPostRepository(DataSource dataSource) {
         this.dataSource = dataSource;
         this.exTranslator = new SQLErrorCodeSQLExceptionTranslator(dataSource);
     }
