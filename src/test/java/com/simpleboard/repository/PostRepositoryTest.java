@@ -22,8 +22,8 @@ public class PostRepositoryTest {
 
     @AfterEach
     void afterEach() {
-        if (postRepository instanceof OldPostRepository) {
-            ((OldPostRepository) postRepository).clearStore();
+        if (postRepository instanceof SimplePostRepository) {
+            ((SimplePostRepository) postRepository).clearStore();
         }
     }
 

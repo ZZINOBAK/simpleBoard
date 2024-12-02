@@ -15,11 +15,11 @@ import java.util.List;
 
 //JDBC 템플릿
 @Repository
-public class PostRepositoryV2 implements PostRepository {
+public class JdbcTemplatePostRepository implements PostRepository {
 
     private final JdbcTemplate template;
 
-    public PostRepositoryV2(DataSource dataSource) {
+    public JdbcTemplatePostRepository(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
     }
 

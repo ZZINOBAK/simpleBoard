@@ -1,14 +1,11 @@
 package com.simpleboard;
 
 import com.simpleboard.repository.*;
-import com.simpleboard.repository.mybatis.PostMapper;
 import com.simpleboard.service.PostService;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.sql.DataSource;
 
 @Configuration
 @RequiredArgsConstructor
@@ -25,10 +22,10 @@ public class AppConfig {
 
     @Bean
     public PostRepository postRepository() {
-//        return new OldPostRepository();
-//        return new PostRepositoryV1(dataSource);
-//        return new PostRepositoryV2(dataSource);
-//        return new PostRepositoryV3(postMapper);
-        return new PostRepositoryV4(em);
+//        return new SimplePostRepository();
+//        return new LegacyJdbcPostRepository(dataSource);
+//        return new JdbcTemplatePostRepository(dataSource);
+//        return new MyBatisPostRepository(postMapper);
+        return new JpaPostRepository(em);
     }
 }
