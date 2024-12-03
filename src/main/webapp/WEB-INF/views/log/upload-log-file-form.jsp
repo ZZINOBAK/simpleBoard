@@ -9,7 +9,7 @@
      <h2> 로그 파일 업로드 </h2>
      <form action="/uploadLogFile" method="post" enctype="multipart/form-data">
          <label for="file">Choose a file:</label>
-         <input type="file" id="file" name="file" required>
+         <input type="file" id="file" name="file" accept=".txt" required>
          <button type="submit">Upload</button>
      </form>
 </body>
