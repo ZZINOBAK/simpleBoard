@@ -22,7 +22,7 @@ public class PostController {
     //게시글 생성 폼
     @GetMapping("/new")
     public String getCreateForm() {
-        return "new-form";
+        return "post/new-form";
     }
 
     //게시글 생성
@@ -32,7 +32,7 @@ public class PostController {
 
         Post post = postService.save(title, content);
         model.addAttribute("post", post);
-        return "post";
+        return "post/post";
     }
 
     //게시글 전체 조회
@@ -40,7 +40,7 @@ public class PostController {
     public String findAllPost(Model model) {
         List<Post> posts = postService.findAllPost();
         model.addAttribute("posts", posts);
-        return "posts";
+        return "post/posts";
     }
 
     //게시글 한개 조회
@@ -48,7 +48,7 @@ public class PostController {
     public String findById(@PathVariable Long id, Model model) {
         Post post = postService.findById(id);
         model.addAttribute("post", post);
-        return "post";
+        return "post/post";
     }
 
     //게시글 수정 폼
@@ -56,7 +56,7 @@ public class PostController {
     public String getEditForm(@PathVariable Long id, Model model) {
         Post post = postService.findById(id);
         model.addAttribute("post", post);
-        return "edit-form";
+        return "post/edit-form";
     }
 
 
@@ -68,7 +68,7 @@ public class PostController {
                            Model model) {
         Post post = postService.updatePost(title, content, id);
         model.addAttribute("post", post);
-        return "post";
+        return "post/post";
     }
 
     //게시글 삭제
